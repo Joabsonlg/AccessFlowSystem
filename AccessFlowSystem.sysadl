@@ -28,7 +28,7 @@ Requirement ReadySnackPurchaseFR (1.3.3) {
     satisfied by AFSComponents.ReadySnackVendingMachines;
 }
 
-Requirement PerformanceNFR (8) {
+Requirement PerformanceNFR (1.8) {
     text = "O sistema deve garantir um tempo de resposta rápido nas transações e no controle de acesso."
 }
 
@@ -115,7 +115,7 @@ package AFSComponents {
                 ExitTurnstile: ExitTurnstile {
                     using ports: ticketReadExitP: TicketReadIn; exitAccessP: AccessStatusOut;
                 }
-                MenuSystem: MenuSystem;
+                
                 TicketIssuingMachine: TicketIssuingMachine {
                     using ports: ticketRequestP: TicketRequestIn; ticketIssuedP: TicketIssuedOut;
                 }
@@ -164,7 +164,7 @@ package AFSComponents {
 
     component def OnDemandSnackOrderingTerminal {
         ports: onDemandSnackOrderP: SnackOrderIn;  ticketReadOnDemandSnackOrderP: TicketReadIn;
-        configuration { components : QRCodeReader : QRCodeReader { using ports : QRCodeTicketInput : TicketReadIn ; QRCodeTicketOutput : QRCodeOutput ; } OrdersDisplay : OrdersDisplay { using ports : OrderStatusInput : OrderStatusIn ; } }
+        configuration { components : QRCodeReader : QRCodeReader { using ports : QRCodeTicketInput : TicketReadIn ; QRCodeTicketOutput : QRCodeOutput ; } OrdersDisplay : OrdersDisplay { using ports : OrderStatusInput : OrderStatusIn ; } Kitchen : Kitchen { using ports : newPort : OrderStatusOut ; } }
     }
 
     component def OrderedSnackPickupPoint {
@@ -181,7 +181,7 @@ package AFSComponents {
         configuration { }
     }
 
-    boundary component def MenuSystem { }
+    
 
     boundary component def Display {
         ports: 
@@ -192,7 +192,8 @@ boundary
 	component def QRCodeReader { ports : QRCodeTicketInput : TicketReadIn ; QRCodeTicketOutput : QRCodeOutput ; } boundary
 	component def Printer { ports : TicketPrinterInput : PrinterInput ; } boundary
 	component def OrdersDisplay { ports : OrderStatusInput : OrderStatusIn ; } boundary
-	component def PaymentMachine { ports : PaymentInput : PaymentMachineInput ; PaymentOutput : PaymentMachineOutput ; } }
+	component def PaymentMachine { ports : PaymentInput : PaymentMachineInput ; PaymentOutput : PaymentMachineOutput ; } boundary
+	component def Kitchen { ports : newPort : OrderStatusOut ; } }
 
 package AFSPorts {
     import SysADL.types;
